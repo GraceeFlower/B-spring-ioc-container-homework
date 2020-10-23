@@ -28,3 +28,14 @@ User user = applicationContext.getBean("getUser");
 ```
 这个例子就是结合`@Configuration`，在需要的时候调用这个方法去实例化一个 User。并且也可以通过一些不同的参数来实例化不同的 type。
 而`@Component`则是作用于一个类，通常结合`@Autowired`去直接实例化其作用的那个类。
+
+***
+### Problem2
+GreetingService 现在必须为 prototype scope，如何保证每次 GreetingController 的 greet() 方法被调用时都会创建新的 greetingService bean？
+至少2种解决方法且
+GreetingController 仍为 singleton scope。
+1. 第一种方法是利用 `@Scope` 中的 `proxyMode` 属性将 `Service` 设置为 `ScopedProxyMode.TARGET_CLASS`  
+这其中有一点是：当我不设置这个属性的时候，在初始化的时候就会调用 `Service` 的构造器，并且只注入一次所以只有个实例；  
+当我用这个属性之后，一开始初始化并不会调用这个 `Service` 的构造器，而是在我调用了 `Controller` 之后才会去构造出同次数个数的实例。  
+（待查阅资料）
+2. 第二种方式则是利用 `@Bean`

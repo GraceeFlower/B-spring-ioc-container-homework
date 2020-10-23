@@ -1,9 +1,12 @@
 package com.thoughtworks.capability.demospringioccontainer;
 
-import org.springframework.stereotype.Service;
+import java.util.Date;
 
-@Service
 public class GreetingService {
+
+    public GreetingService() {
+        System.out.println(this + " created when time is" + new Date());
+    }
 
     String sayHi() {
         return "hello world";
